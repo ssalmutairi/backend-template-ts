@@ -1,0 +1,80 @@
+import { Static, Type } from "@sinclair/typebox";
+import { templateSchemaProperties } from "./template.model";
+import {
+  auditableSchema,
+  dateRageSchema,
+  errorSchemaType,
+  messageResponseSchemaType,
+  paginationSchema,
+  softDeleteSchema,
+} from "../shared/common.schema";
+
+export const templateSchema = Type.Composite([templateSchemaProperties, auditableSchema, softDeleteSchema]);
+export type templateSchemaType = Static<typeof templateSchema>;
+
+export const templateParamSchema = Type.Composite([Type.Pick(templateSchema, ["id"])]);
+export type templateParamSchemaType = Static<typeof templateParamSchema>;
+
+const templateFilterSchema = Type.Composite([
+  Type.Pick(templateSchema, ["name"]),
+  Type.Object({
+    createdAt: Type.Optional(dateRageSchema),
+    orderBy: Type.Optional(
+      Type.Object({
+        field: Type.String({ default: "createdAt" }),
+        direction: Type.String({ enum: ["asc", "desc"], default: "desc" }),
+      }),
+    ),
+  })
+]);
+export type templateFilterSchemaType = Static<typeof templateFilterSchema>;
+export const templateQuerySchema = Type.Composite([
+  Type.Object({
+    filter: Type.Optional(templateFilterSchema),
+  }),
+  paginationSchema,
+]);
+export type templateQuerySchemaType = Static<typeof templateQuerySchema>;
+
+export const templateCreateBodySchema = Type.Composite([Type.Pick(templateSchema, ["name"])]);
+export type templateCreateBodySchemaType = Static<typeof templateCreateBodySchema>;
+
+export const templateUpdateBodySchema = Type.Composite([Type.Omit(templateCreateBodySchema, [])]);
+export type templateUpdateBodySchemaType = Static<typeof templateUpdateBodySchema>;
+
+export const templateResponseSchema = Type.Composite([Type.Omit(templateSchema, ["password", "deletedAt"])]);
+export type templateResponseSchemaType = Static<typeof templateResponseSchema>;
+
+export const templateListResponseSchema = Type.Array(templateResponseSchema);
+export type templateListResponseSchemaType = Static<typeof templateListResponseSchema>;
+
+
+export type templateGetListSchemaType = {
+  Querystring: templateQuerySchemaType;
+  Response: templateListResponseSchemaType;
+  Error: errorSchemaType;
+};
+
+export type templateCreateSchemaType = {
+  Body: templateCreateBodySchemaType;
+  Response: templateResponseSchemaType;
+  Error: errorSchemaType;
+};
+
+export type templateGetOneSchemaType = {
+  Params: templateParamSchemaType;
+  Response: templateResponseSchemaType;
+  Error: errorSchemaType;
+};
+
+export type templateUpdateSchemaType = {
+  Params: templateParamSchemaType;
+  Body: templateUpdateBodySchemaType;
+  Response: templateResponseSchemaType;
+  Error: errorSchemaType;
+};
+
+export type templateDeleteSchemaType = {
+  Params: templateParamSchemaType;
+  Response: messageResponseSchemaType;
+};

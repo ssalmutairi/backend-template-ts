@@ -1,0 +1,14 @@
+{  
+  "editor.codeActionsOnSave": {        
+    "source.fixAll.ts": "explicit",
+    "source.organizeImports": "never",
+  },  
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#2D2F17",
+    "titleBar.activeBackground": "#3F4220",
+    "titleBar.activeForeground": "#FAFBF6"
+  },  
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+  "prettier.requireConfig": true
+}

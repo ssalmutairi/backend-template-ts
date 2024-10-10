@@ -1,0 +1,33 @@
+{
+  "app": {
+    "validation": {
+      "failed": "Validation error",
+      "required": "The {{missingProperty}} field is required."
+    },
+    "error": {
+      "internalServerError": "Internal server error",
+      "unauthorizedAccess": "Unauthorized access"
+    }
+  },
+  "auth": {
+    "message": {
+      "logout": "Logged out successfully"
+    },
+    "error": {
+      "invalidCredentials": "Invalid username/password",
+      "unauthorized": "Invalid or expired token",
+      "tokenExpired": "Token expired"
+    }
+  },
+  "user": {
+    "message": {
+      "deleted": "User deleted successfully.",
+      "passwordReset": "Password reset successfully."
+    },
+    "error": {
+      "notFound": "User not found.",
+      "usernameAlreadyExists": "Failed to create user, the username already exists.",
+      "passwordMismatch": "Failed to reset password because the current password is incorrect."
+    }
+  }
+}

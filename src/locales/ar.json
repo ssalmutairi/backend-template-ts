@@ -1,0 +1,33 @@
+{
+  "app": {
+    "validation": {
+      "failed": "خطأ في التحقق",
+      "required": "حقل {{missingProperty}} مطلوب."
+    },
+    "error": {
+      "internalServerError": "خطأ داخلي في الخادم",
+      "unauthorizedAccess": "تم رفض الوصول"
+    }
+  },
+  "auth": {
+    "message": {
+      "logout": "تم تسجيل الخروج بنجاح"
+    },
+    "error": {
+      "invalidCredentials": "اسم المستخدم/كلمة المرور غير صالحة",
+      "unauthorized": "الرمز غير صالح أو منتهي الصلاحية",
+      "tokenExpired": "انتهت صلاحية الرمز"
+    }
+  },
+  "user": {
+    "message": {
+      "deleted": "تم حذف المستخدم بنجاح.",
+      "passwordReset": "تمت إعادة تعيين كلمة المرور بنجاح."
+    },
+    "error": {
+      "notFound": "المستخدم غير موجود.",
+      "usernameAlreadyExists": "فشل في إنشاء المستخدم، اسم المستخدم موجود بالفعل.",
+      "passwordMismatch": "فشل إعادة تعيين كلمة المرور لأن كلمة المرور الحالية غير صحيحة."
+    }
+  }
+}
