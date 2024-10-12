@@ -1,6 +1,7 @@
 import fp from "fastify-plugin";
 import PetStore from "./pet-store.axios";
 
+
 declare module "fastify" {
   interface FastifyInstance {
     // Add your plugin methods here

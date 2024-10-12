@@ -64,15 +64,6 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
     return !!requestBody?.content?.["application/octet-stream"];
   };
 
-  if (hasQueryParams) {
-    methodParams += `query?: paths["${endpoint}"]["${method}"]["parameters"]["query"], `;
-    if (hasRequestBody) {
-      axiosCallParams += `, data, { params: query, ...config }`;
-    } else {
-      axiosCallParams += `, { params: query, ...config }`;
-    }
-  }
-
   if (hasRequestBody) {
     if (isRequestBodyOctetStream(requestBody)) {
       methodParams += `data: paths["${endpoint}"]["${method}"]["requestBody"]["content"]["application/octet-stream"], `;
@@ -83,6 +74,15 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
       requestBodyParam = ", data";
     } else {
       requestBodyParam = "";
+    }
+  }
+
+  if (hasQueryParams) {
+    methodParams += `query?: paths["${endpoint}"]["${method}"]["parameters"]["query"], `;
+    if (hasRequestBody) {
+      axiosCallParams += `, data, { params: query, ...config }`;
+    } else {
+      axiosCallParams += `, { params: query, ...config }`;
     }
   }
 
