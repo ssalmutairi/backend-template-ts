@@ -28,6 +28,14 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
     encapsulate: false,
   });
 
+  // This loads all plugins defined in `clients`
+  fastify.register(AutoLoad, {
+    dir: join(__dirname, "clients"),
+    options: { ...options },
+    ignoreFilter: (path) => !/.*\.(client.js)/.test(path),
+    encapsulate: false,
+  });
+
   // This loads all plugins defined in `routes`
   fastify.register(AutoLoad, {
     dir: join(__dirname, "routes"),
@@ -44,7 +52,7 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   });
 
   // load websocket plugin
-  fastify.register(webSocketPlugin)
+  fastify.register(webSocketPlugin);
 };
 
 export default app;

@@ -1,8 +1,9 @@
 {
   "app": {
     "validation": {
-      "failed": "Validation error",
-      "required": "The {{missingProperty}} field is required."
+      "failed": "Validation failed",
+      "required": "The '{{missingProperty}}' field is required.",
+      "format": "The '{{property}}' field must be a valid '{{format}}'."
     },
     "error": {
       "internalServerError": "Internal server error",
@@ -28,6 +29,11 @@
       "notFound": "User not found.",
       "usernameAlreadyExists": "Failed to create user, the username already exists.",
       "passwordMismatch": "Failed to reset password because the current password is incorrect."
+    }
+  },
+  "session": {
+    "error": {
+      "notFound": "Session not found."
     }
   }
 }

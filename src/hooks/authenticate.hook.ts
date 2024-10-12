@@ -16,7 +16,7 @@ export default fp(async (fastify) => {
     let url = request.routeOptions.url || "";
     url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-    const publicRoutes = ["/api/auth/login", "/websocket", '/api/template'];
+    const publicRoutes = ["/api/auth/login", "/websocket", "/api/template", "/api/template/:id"];
 
     // Skip authentication for public routes
     if (publicRoutes.includes(url) || url.includes("documentation")) {
@@ -30,7 +30,7 @@ export default fp(async (fastify) => {
 
     // if no authorization header is present throw unauthorized error
     if (!request.headers.authorization) {
-      throw fastify.httpErrors.unauthorized("auth.errors.unauthorized");
+      throw fastify.httpErrors.unauthorized("auth.error.unauthorized");
     }
 
     // authenticate all requests starting with /api

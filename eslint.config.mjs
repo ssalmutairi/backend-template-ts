@@ -32,6 +32,7 @@ export default [
         console: "readonly",
         process: "readonly",
         require: "readonly",
+        __dirname: "readonly",
         // add any other Node.js global variables if needed
       },
     },

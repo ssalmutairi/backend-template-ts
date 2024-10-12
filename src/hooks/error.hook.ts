@@ -13,12 +13,19 @@ export const errorPlugin = fp<ErrorPluginOptions>(async (fastify) => {
 
     if (error.validation) {
       const { params, keyword, instancePath } = error.validation[0];
+      let translatedErrors;
+
       params.missingProperty = params.missingProperty ?? instancePath.replace("/", "");
-      const translatedErrors = i18next.t(`errors.validation.${keyword}`, params);
+      translatedErrors = i18next.t(`app.validation.${keyword}`, params);
+
+      if (keyword === "format" && params.format === "uuid") {
+        params.property = instancePath.replace("/", "");
+        translatedErrors = i18next.t("app.validation.format", params);
+      }
 
       reply.status(400).send({
         statusCode: 400,
-        error: i18next.t("errors.validation.errorMessage"),
+        error: i18next.t("app.validation.failed"),
         message: translatedErrors,
       });
     } else {

@@ -36,7 +36,7 @@ const servicePlugin = fp(async (fastify) => {
         // Compare the provided password with the stored hashed password
         const isMatch = await bcrypt.compare(data.password, user.password);
         if (!isMatch) {
-          throw httpErrors.badRequest("auth.errors.invalidCredentials");
+          throw httpErrors.badRequest("auth.error.invalidCredentials");
         }
 
         const payload = {

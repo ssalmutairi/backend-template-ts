@@ -1,8 +1,9 @@
 {
   "app": {
     "validation": {
-      "failed": "خطأ في التحقق",
-      "required": "حقل {{missingProperty}} مطلوب."
+      "failed": "فشل التحقق",
+      "required": "يجب أن يكون حقل '{{missingProperty}}' مطلوبًا.",
+      "format": "يجب أن يكون حقل '{{property}}' صالحًا '{{format}}'."
     },
     "error": {
       "internalServerError": "خطأ داخلي في الخادم",
@@ -28,6 +29,11 @@
       "notFound": "المستخدم غير موجود.",
       "usernameAlreadyExists": "فشل في إنشاء المستخدم، اسم المستخدم موجود بالفعل.",
       "passwordMismatch": "فشل إعادة تعيين كلمة المرور لأن كلمة المرور الحالية غير صحيحة."
+    }
+  },
+  "session": {
+    "error": {
+      "notFound": "الجلسة غير موجودة."
     }
   }
 }

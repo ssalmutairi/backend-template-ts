@@ -43,7 +43,7 @@ const servicePlugin = fp(async (fastify) => {
           where: { token, active: true },
         });
         if (!session) {
-          throw httpErrors.notFound("sessions.errors.notFound");
+          throw httpErrors.notFound("session.error.notFound");
         }
 
         return await prisma.session.update({

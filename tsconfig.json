@@ -4,8 +4,9 @@
     "outDir": "dist",
     "sourceMap": true,
     "noImplicitAny": false,
-    "strict": false
+    "strict": false,
+    "noUncheckedIndexedAccess": true
   },
-  "include": ["src/**/*.ts", "src/locales/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.json", "src/**/*.cjs"],
   "exclude": ["node_modules", "dist"]
 }

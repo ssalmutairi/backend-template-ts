@@ -29,7 +29,6 @@ type templateDeleteType = {
   id: string;
 };
 
-
 interface TemplateService {
   findAll(data: templateFindAllType): Promise<any>; //TODO: define response type
   create: (data: templateCreateType) => Promise<any>; //TODO: define response type
@@ -48,35 +47,34 @@ const servicePlugin = fp(async (fastify) => {
   const templateService: TemplateService = {
     findAll: async ({ skip, take, filter, request }) => {
       return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
-
+        //TODO: implement your logic here
       });
     },
     create: async ({ data }) => {
       return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
+        //TODO: implement your logic here
       });
     },
-    findOne: async ({ id }) => {
+    findOne: async ({ id, request }) => {
       return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
+        //TODO: implement your logic here
       });
     },
     update: async ({ id, data }) => {
       return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
+        //TODO: implement your logic here
       });
     },
     remove: async ({ id }) => {
       await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
+        //TODO: implement your logic here
       });
 
       return { message: fastify.t("templates.messages.deleted") };
     },
     count: async ({ filter }) => {
       return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here        
+        //TODO: implement your logic here
         return 0;
       });
     },

@@ -20,7 +20,7 @@ export default fp(
           loadPath: "src/locales/{{lng}}.json",
         },
         lookupHeader: "accept-language",
-        fallbackLng: "ar",
+        fallbackLng: "en",
         preload: ["en", "ar"],
         saveMissing: true,
         interpolation: {

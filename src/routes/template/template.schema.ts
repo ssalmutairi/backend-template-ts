@@ -25,7 +25,7 @@ const templateFilterSchema = Type.Composite([
         direction: Type.String({ enum: ["asc", "desc"], default: "desc" }),
       }),
     ),
-  })
+  }),
 ]);
 export type templateFilterSchemaType = Static<typeof templateFilterSchema>;
 export const templateQuerySchema = Type.Composite([
@@ -42,12 +42,13 @@ export type templateCreateBodySchemaType = Static<typeof templateCreateBodySchem
 export const templateUpdateBodySchema = Type.Composite([Type.Omit(templateCreateBodySchema, [])]);
 export type templateUpdateBodySchemaType = Static<typeof templateUpdateBodySchema>;
 
-export const templateResponseSchema = Type.Composite([Type.Omit(templateSchema, ["password", "deletedAt"])]);
+export const templateResponseSchema = Type.Composite([Type.Omit(templateSchema, ["password", "deletedAt"])], {
+  additionalProperties: true,
+});
 export type templateResponseSchemaType = Static<typeof templateResponseSchema>;
 
 export const templateListResponseSchema = Type.Array(templateResponseSchema);
 export type templateListResponseSchemaType = Static<typeof templateListResponseSchema>;
-
 
 export type templateGetListSchemaType = {
   Querystring: templateQuerySchemaType;

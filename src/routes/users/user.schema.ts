@@ -25,7 +25,7 @@ const userFilterSchema = Type.Composite([
         direction: Type.String({ enum: ["asc", "desc"], default: "desc" }),
       }),
     ),
-  })
+  }),
 ]);
 export type userFilterSchemaType = Static<typeof userFilterSchema>;
 export const userQuerySchema = Type.Composite([
@@ -53,7 +53,6 @@ export type userResponseSchemaType = Static<typeof userResponseSchema>;
 
 export const userListResponseSchema = Type.Array(userResponseSchema);
 export type userListResponseSchemaType = Static<typeof userListResponseSchema>;
-
 
 export type userGetListSchemaType = {
   Querystring: userQuerySchemaType;
