@@ -17,7 +17,6 @@ fileName = clientName
   .toLowerCase();
 className = clientName.charAt(0).toUpperCase();
 className += clientName.slice(1).replace(/[-_](.)/g, (_, $1) => $1.toUpperCase());
-console.log({ filePath, clientName, className, fileName });
 // generate typescript types from OpenAPI schema
 const content = execSync(`npx openapi-typescript ${filePath} -t`, { encoding: "utf-8" });
 const fixedContent = content.replace(/requestBody\?/g, "requestBody");
@@ -27,7 +26,7 @@ fs.writeFileSync(path.resolve("src", "clients", fileName, `${fileName}.d.ts`), f
 console.log("- Typescript types generated successfully!");
 let openApiSchema;
 if (filePath.includes("http")) {
-  const content = execSync(`curl ${filePath}`, { encoding: "utf-8" });
+  const content = execSync(`curl -s ${filePath}`, { encoding: "utf-8" });
   openApiSchema = JSON.parse(content);
 } else {
   openApiSchema = JSON.parse(fs.readFileSync(path.resolve(filePath), "utf-8"));
