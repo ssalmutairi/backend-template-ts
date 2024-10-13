@@ -160,6 +160,28 @@ const envName =
 fs.writeFileSync(path.resolve("src", "clients", fileName, `${fileName}.axios.ts`), clientCode, "utf-8");
 console.log("- Axios client generated successfully!");
 
+// check if .env file exists  append the env var
+const envPath = path.resolve(".env");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf-8");
+  if (!envContent.includes(envName)) {
+    fs.appendFileSync(envPath, `${envName}\t\t= 'http://localhost:4000'\n`, "utf-8");
+    console.log("- Environment variable added to .env file!");
+  } else {
+    console.log("- Environment variable already exists in .env file!");
+  }
+} else {
+  // cp .env.example .env then append the env var if .enx.example exists
+  const envExamplePath = path.resolve(".env.example");
+  if (fs.existsSync(envExamplePath)) {
+    fs.copyFileSync(envExamplePath, envPath);
+    fs.appendFileSync(envPath, `${envName}\t\t= 'http://localhost:4000'\n`, "utf-8");
+    console.log("- Environment variable added to .env file!");
+  } else {
+    console.log("- Environment variable not added to .env file, please add it manually!");
+  }
+}
+
 // generate fastify client plugin
 const fastifyPlugin = `import fp from "fastify-plugin";
 import ${className} from "./${fileName}.axios";
