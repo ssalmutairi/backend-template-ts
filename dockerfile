@@ -10,7 +10,6 @@ RUN npm ci --only=production && npm cache clean --force
 
 # Copy all source code to /app excluding dist directory
 COPY . .
-COPY .env.prod .env
 
 # generate prism client
 RUN npm run prisma
