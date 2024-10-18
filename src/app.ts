@@ -88,7 +88,6 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   fastify.register((f) => f.register(websocketRoutes), { prefix: "/websocket" });
   fastify.register((f) => f.register(authRoutes), { prefix: "/api/auth" });
   fastify.register((f) => f.register(userRoutes), { prefix: "/api/users" });
-
 };
 
 export default app;
