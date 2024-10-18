@@ -57,7 +57,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
+    "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "^19.5.0",
     "@release-it/conventional-changelog": "^9.0.0",
     "@types/mime-types": "^2.1.4",
