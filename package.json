@@ -15,7 +15,7 @@
     "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js",
     "prepare": "husky",
     "prisma": "npx prisma generate",
-    "client:generate": "node generate-client.mjs"
+    "client": "node scripts/create-client/index.mjs"
   },
   "keywords": [],
   "author": "Shafi S.Almutiair <shafi.almutairi@gmail.com>",

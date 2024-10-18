@@ -103,6 +103,8 @@ function generateAxiosClient() {
   const clientClass = `
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { paths } from "./${fileName}";
+import https from "https";
+
 
 class ${className}Client {
     private axiosInstance: AxiosInstance;
@@ -114,6 +116,7 @@ class ${className}Client {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
+            httpsAgent: baseURL.startsWith("https") ? new https.Agent({ rejectUnauthorized: false }) : undefined,
         });
     }
   `;
