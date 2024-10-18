@@ -20,7 +20,7 @@ import rateLimitPlugin from "./plugins/rate-limit.plugin";
 import swaggerPlugin from "./plugins/swagger.plugin";
 import websocketPlugin from "./plugins/websocket.plugin";
 
-// hooks 
+// hooks
 import authenticateHook from "./hooks/authenticate.hook";
 import languageHook from "./hooks/language.hook";
 import errorHook from "./hooks/error.hook";
@@ -32,13 +32,11 @@ import authService from "./routes/auth/auth.service";
 import userService from "./routes/users/user.service";
 import sampleService from "./routes/samples/sample.service";
 
-
 // routes
 import websocketRoutes from "./websocket/websocket.routes";
 import authRoutes from "./routes/auth/auth.routes";
 import userRoutes from "./routes/users/user.routes";
 import sampleRoutes from "./routes/samples/sample.routes";
-
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {}
 // Pass --options via CLI arguments in command to enable these options.
@@ -50,7 +48,6 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   //! sequence of loading plugins is important
   // Place here your custom code!
   // Do not touch the following line
-
 
   // loading all plugins manually to control the sequence
   fastify.register(sensiblePlugin);
@@ -90,13 +87,11 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   fastify.register(authService);
   fastify.register(sampleService);
 
-
   // load all routes manually
-  fastify.register(f => f.register(websocketRoutes), { prefix: "/websocket" });
-  fastify.register(f => f.register(authRoutes), { prefix: "/api/auth" });
-  fastify.register(f => f.register(userRoutes), { prefix: "/api/users" });
-  fastify.register(f => f.register(sampleRoutes), { prefix: "/api/samples" });
-
+  fastify.register((f) => f.register(websocketRoutes), { prefix: "/websocket" });
+  fastify.register((f) => f.register(authRoutes), { prefix: "/api/auth" });
+  fastify.register((f) => f.register(userRoutes), { prefix: "/api/users" });
+  fastify.register((f) => f.register(sampleRoutes), { prefix: "/api/samples" });
 };
 
 export default app;

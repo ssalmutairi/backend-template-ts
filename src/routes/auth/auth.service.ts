@@ -95,7 +95,6 @@ export default fp(async (fastify) => {
   fastify.decorate("authService", authService);
 });
 
-
 declare module "fastify" {
   interface FastifyInstance {
     authService: AuthService;

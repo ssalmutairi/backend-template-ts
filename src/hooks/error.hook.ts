@@ -23,7 +23,6 @@ declare module "fastify" {
   }
 }
 
-
 export default fp<ErrorPluginOptions>(async (fastify) => {
   fastify.setErrorHandler((error, request, reply) => {
     // log for debugging
@@ -57,5 +56,3 @@ export default fp<ErrorPluginOptions>(async (fastify) => {
     }
   });
 });
-
-

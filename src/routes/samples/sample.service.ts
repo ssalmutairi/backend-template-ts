@@ -6,7 +6,7 @@ import {
   sampleFilterSchemaType,
   sampleListResponseSchemaType,
   sampleResponseSchemaType,
-  sampleUpdateBodySchemaType
+  sampleUpdateBodySchemaType,
 } from "./sample.schema";
 
 type sampleFindAllType = {

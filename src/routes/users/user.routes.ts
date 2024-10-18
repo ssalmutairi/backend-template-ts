@@ -18,7 +18,6 @@ import {
 import fp from "fastify-plugin";
 
 export default fp(async (fastify): Promise<void> => {
-
   fastify.route<userGetListSchemaType>({
     method: "GET",
     url: "/",
@@ -173,5 +172,5 @@ export default fp(async (fastify): Promise<void> => {
       const result = fastify.userService.resetPassword({ userId, data, request });
       return result;
     },
-  })
+  });
 });
