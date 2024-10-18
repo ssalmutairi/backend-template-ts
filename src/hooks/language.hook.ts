@@ -11,7 +11,7 @@ export default fp(async (fastify) => {
         break;
       }
     }
-    console.log({ language });
+
     if (language) await i18next.changeLanguage(language);
   });
 });

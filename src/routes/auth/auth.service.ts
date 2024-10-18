@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import argon2 from "argon2";
 import fp from "fastify-plugin";
 import { loginBodySchemaType, loginResponseSchemaType } from "../auth/auth.schema";
 import { messageResponseSchemaType } from "../shared/common.schema";
@@ -11,7 +11,7 @@ type loginType = {
 
 type logoutType = {
   request?: FastifyRequest;
-  userId: string;
+  userId: number;
 };
 
 type AuthService = {
@@ -19,7 +19,7 @@ type AuthService = {
   logout: (data: logoutType) => Promise<messageResponseSchemaType>;
 };
 
-const servicePlugin = fp(async (fastify) => {
+export default fp(async (fastify) => {
   const { prisma, httpErrors } = fastify;
 
   const authService: AuthService = {
@@ -34,7 +34,7 @@ const servicePlugin = fp(async (fastify) => {
         }
 
         // Compare the provided password with the stored hashed password
-        const isMatch = await bcrypt.compare(data.password, user.password);
+        const isMatch = await argon2.verify(user.password, data.password);
         if (!isMatch) {
           throw httpErrors.badRequest("auth.error.invalidCredentials");
         }
@@ -95,7 +95,7 @@ const servicePlugin = fp(async (fastify) => {
   fastify.decorate("authService", authService);
 });
 
-export default servicePlugin;
+
 declare module "fastify" {
   interface FastifyInstance {
     authService: AuthService;

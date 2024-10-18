@@ -6,7 +6,25 @@ const i18next = require("i18next");
 
 interface ErrorPluginOptions {}
 
-export const errorPlugin = fp<ErrorPluginOptions>(async (fastify) => {
+declare module "fastify" {
+  interface FastifySchemaValidationError {
+    keyword: string;
+    instancePath: string;
+    schemaPath: string;
+    params: {
+      missingProperty?: string | undefined;
+      [key: string]: string | number | boolean | undefined;
+    };
+    message?: string;
+  }
+
+  interface FastifyContextConfig {
+    fieldTranslations?: Record<string, string>;
+  }
+}
+
+
+export default fp<ErrorPluginOptions>(async (fastify) => {
   fastify.setErrorHandler((error, request, reply) => {
     // log for debugging
     fastify.log.error(error);
@@ -40,20 +58,4 @@ export const errorPlugin = fp<ErrorPluginOptions>(async (fastify) => {
   });
 });
 
-export default errorPlugin;
-declare module "fastify" {
-  interface FastifySchemaValidationError {
-    keyword: string;
-    instancePath: string;
-    schemaPath: string;
-    params: {
-      missingProperty?: string | undefined;
-      [key: string]: string | number | boolean | undefined;
-    };
-    message?: string;
-  }
 
-  interface FastifyContextConfig {
-    fieldTranslations?: Record<string, string>;
-  }
-}

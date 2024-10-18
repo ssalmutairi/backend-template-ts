@@ -1,13 +1,13 @@
-import { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
+import fp from "fastify-plugin";
 import { WebSocket } from "@fastify/websocket";
-import { sleep } from "../helpers/common";
+import { sleep } from "../helpers/common.js";
 
 interface WebSocketCustom extends WebSocket {
   isActive: boolean;
   userId: string;
 }
 
-export const webSocketPlugin: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
+export default fp(async (fastify): Promise<void> => {
   const { redis, redisChannel, websocketServer } = fastify;
 
   const clients = new Set() as Set<WebSocketCustom>;
@@ -35,50 +35,37 @@ export const webSocketPlugin: FastifyPluginAsyncTypebox = async (fastify): Promi
   }
   livenessCheck();
 
-  fastify.get(
-    "/websocket",
-    {
-      websocket: true,
-      schema: {
-        tags: ["websocket"],
-        summary: "websocket to communicate with client",
-        description: "websocket to communicate with client",
-      },
-    },
-    (socket) => {
-      const customSocket = socket as WebSocketCustom;
-      customSocket.isActive = true;
-      customSocket.on("pong", () => (customSocket.isActive = true));
+  fastify.get("/websocket", { websocket: true }, (socket) => {
+    const customSocket = socket as WebSocketCustom;
+    customSocket.isActive = true;
+    customSocket.on("pong", () => (customSocket.isActive = true));
 
-      customSocket.on("message", async (message) => {
-        try {
-          const { userId } = JSON.parse(message.toString());
-          customSocket.userId = userId;
-        } catch (error) {
-          fastify.log.error(error);
+    customSocket.on("message", async (message) => {
+      try {
+        const { userId } = JSON.parse(message.toString());
+        customSocket.userId = userId;
+      } catch (error) {
+        fastify.log.error(error);
+      }
+    });
+    // subscribe to a channel on redis
+    const subscriber = redis.duplicate();
+    subscriber.subscribe(redisChannel);
+
+    subscriber.on("message", (channel, message) => {
+      fastify.log.warn({ channel, message });
+      try {
+        const { userId, payload } = JSON.parse(message);
+        if (userId === customSocket.userId) {
+          customSocket.send(JSON.stringify(payload));
         }
-      });
-      // subscribe to a channel on redis
-      const subscriber = redis.duplicate();
-      subscriber.subscribe(redisChannel);
-
-      subscriber.on("message", (channel, message) => {
-        fastify.log.warn({ channel, message });
-        try {
-          const { userId, payload } = JSON.parse(message);
-          if (userId === customSocket.userId) {
-            customSocket.send(JSON.stringify(payload));
-          }
-        } catch (error) {
-          fastify.log.error(error);
-        }
-      });
-      customSocket.on("close", () => {
-        subscriber.unsubscribe(redisChannel);
-        subscriber.quit();
-      });
-    },
-  );
-};
-
-export default webSocketPlugin;
+      } catch (error) {
+        fastify.log.error(error);
+      }
+    });
+    customSocket.on("close", () => {
+      subscriber.unsubscribe(redisChannel);
+      subscriber.quit();
+    });
+  });
+});

@@ -1,16 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
-import { templateSchemaProperties } from "./template.model";
-import {
-  auditableSchema,
-  dateRageSchema,
-  errorSchemaType,
-  messageResponseSchemaType,
-  paginationSchema,
-  softDeleteSchema,
-} from "../shared/common.schema";
-
-export const templateSchema = Type.Composite([templateSchemaProperties, auditableSchema, softDeleteSchema]);
-export type templateSchemaType = Static<typeof templateSchema>;
+import { templateSchema } from "./template.model";
+import { dateRageSchema, errorSchemaType, messageResponseSchemaType, paginationSchema } from "../shared/common.schema";
 
 export const templateParamSchema = Type.Composite([Type.Pick(templateSchema, ["id"])]);
 export type templateParamSchemaType = Static<typeof templateParamSchema>;
@@ -28,10 +18,9 @@ const templateFilterSchema = Type.Composite([
   }),
 ]);
 export type templateFilterSchemaType = Static<typeof templateFilterSchema>;
+
 export const templateQuerySchema = Type.Composite([
-  Type.Object({
-    filter: Type.Optional(templateFilterSchema),
-  }),
+  Type.Object({ filter: Type.Optional(templateFilterSchema) }),
   paginationSchema,
 ]);
 export type templateQuerySchemaType = Static<typeof templateQuerySchema>;
@@ -42,9 +31,7 @@ export type templateCreateBodySchemaType = Static<typeof templateCreateBodySchem
 export const templateUpdateBodySchema = Type.Composite([Type.Omit(templateCreateBodySchema, [])]);
 export type templateUpdateBodySchemaType = Static<typeof templateUpdateBodySchema>;
 
-export const templateResponseSchema = Type.Composite([Type.Omit(templateSchema, ["password", "deletedAt"])], {
-  additionalProperties: true,
-});
+export const templateResponseSchema = Type.Composite([Type.Omit(templateSchema, [])]);
 export type templateResponseSchemaType = Static<typeof templateResponseSchema>;
 
 export const templateListResponseSchema = Type.Array(templateResponseSchema);

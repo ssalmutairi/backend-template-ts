@@ -1,4 +1,3 @@
-import { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { setPaginationHeaders } from "../../helpers/common";
 import { errorSchema, messageResponseSchema } from "../shared/common.schema";
 import {
@@ -16,8 +15,10 @@ import {
   userUpdateBodySchema,
   userUpdateSchemaType,
 } from "./user.schema";
+import fp from "fastify-plugin";
 
-const users: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
+export default fp(async (fastify): Promise<void> => {
+
   fastify.route<userGetListSchemaType>({
     method: "GET",
     url: "/",
@@ -172,7 +173,5 @@ const users: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       const result = fastify.userService.resetPassword({ userId, data, request });
       return result;
     },
-  });
-};
-
-export default users;
+  })
+});

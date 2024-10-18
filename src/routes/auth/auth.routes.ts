@@ -1,7 +1,8 @@
+import fp from "fastify-plugin";
 import { errorSchema, messageResponseSchema } from "../shared/common.schema";
-import { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { loginBodySchema, loginResponseSchema, loginSchemaType, logoutSchemaType } from "./auth.schema";
-const auth: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
+
+export default fp(async (fastify): Promise<void> => {
   // api to login
   fastify.route<loginSchemaType>({
     method: "POST",
@@ -64,6 +65,4 @@ const auth: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       return result;
     },
   });
-};
-
-export default auth;
+});

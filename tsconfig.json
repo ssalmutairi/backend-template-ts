@@ -7,6 +7,14 @@
     "strict": false,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src/**/*.ts", "src/**/*.json", "src/**/*.cjs"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.json",
+    "src/**/*.cjs",
+    "src/helpers/common.ts",
+    "src/routes/users/user.service.ts",
+    "src/routes/users/user.service.ts",
+    "src/helpers/constants.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

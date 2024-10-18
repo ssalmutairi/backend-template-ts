@@ -23,7 +23,7 @@ interface SessionService {
   validSession: (data: validateSessionType) => Promise<boolean>;
 }
 
-const servicePlugin = fp(async (fastify) => {
+export default fp(async (fastify) => {
   const { prisma, httpErrors } = fastify;
 
   const sessionService: SessionService = {
@@ -67,8 +67,6 @@ const servicePlugin = fp(async (fastify) => {
   // Decorate the fastify instance with the sessionService
   fastify.decorate("sessionService", sessionService);
 });
-
-export default servicePlugin;
 
 declare module "fastify" {
   interface FastifyInstance {

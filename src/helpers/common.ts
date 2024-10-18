@@ -1,5 +1,5 @@
 import { FastifyReply } from "fastify";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 
 type paginationHeaderType = {
   reply: FastifyReply;
@@ -40,9 +40,9 @@ export const nextOfMinute = (minute: number) => {
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const hashPassword = async (password: string) => {
-  return await bcrypt.hash(password, 10);
+  return await argon2.hash(password);
 };
 
 export const comparePassword = async (password: string, hash: string) => {
-  return await bcrypt.compare(password, hash);
+  return await argon2.verify(hash, password);
 };

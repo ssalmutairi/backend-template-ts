@@ -1,22 +1,19 @@
-const fs = require("fs");
-const path = require("path");
-const { execSync } = require("child_process");
+import fs from "fs";
+import path from "path";
+import * as changeCase from "change-case";
+import { execSync } from "child_process";
 // accept 2 arguments the name and the path of the file
 if (process.argv.length !== 4) {
   console.error("Please provide the name of the client and the path to the OpenAPI schema file");
   console.error("Example: node generate-client.js pet-store openapi/pet-store.openapi.json");
   process.exit(1);
 }
-let filePath, clientName, className;
+let filePath, clientName, className, fileName;
 clientName = process.argv[2];
-clientName = clientName.replace(/[-_](.)/g, (_, $1) => $1.toUpperCase());
+clientName = changeCase.camelCase(clientName.replace(/[-_](.)/g, (_, $1) => $1.toUpperCase()));
 filePath = process.argv[3];
-fileName = clientName
-  .split(/(?=[A-Z])/)
-  .join("-")
-  .toLowerCase();
-className = clientName.charAt(0).toUpperCase();
-className += clientName.slice(1).replace(/[-_](.)/g, (_, $1) => $1.toUpperCase());
+fileName = changeCase.kebabCase(clientName);
+className = changeCase.pascalCase(clientName);
 // generate typescript types from OpenAPI schema
 const content = execSync(`npx openapi-typescript ${filePath} -t`, { encoding: "utf-8" });
 const fixedContent = content.replace(/requestBody\?/g, "requestBody");
@@ -34,18 +31,16 @@ if (filePath.includes("http")) {
 
 // Utility function to generate Axios methods based on OpenAPI paths
 function generateAxiosMethod(endpoint, method, responses, requestBody, parameters) {
-  // console.log({ endpoint, method, responses, requestBody, parameters });
+  // replace endpoint has params end with {param} or :param for path  ByParamName
+  const endpointWithParams = endpoint.replace(/{(.*?)}/g, "By$1").replace(/:(.*?)(\/|$)/g, "By$1");
   const functionName =
-    method.charAt(0).toUpperCase() +
-    method.slice(1).toLowerCase() +
-    endpoint
-      .split("/")
-      .filter((part) => part !== "")
-      .map((part) => part.replace(/{(.*?)}/g, (_, $1) => "By" + $1.charAt(0).toUpperCase() + $1.slice(1)))
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join("")
-      .replace(/[^a-zA-Z0-9]/g, "");
-
+    changeCase.camelCase(method) +
+    changeCase.pascalCase(
+      endpointWithParams
+        .split("/")
+        .map((part) => changeCase.pascalCase(part))
+        .join(""),
+    );
   const hasRequestBody = !!requestBody;
   const hasQueryParams = parameters?.filter((param) => param.in === "query").length > 0;
   const hasPathParams = parameters?.filter((param) => param.in === "path").length > 0;
@@ -85,9 +80,9 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
   if (hasQueryParams) {
     methodParams += `query?: paths["${endpoint}"]["${method}"]["parameters"]["query"], `;
     if (hasRequestBody) {
-      axiosCallParams += `, data, { params: query, ...config }`;
+      axiosCallParams += ", data, { params: query, ...config }";
     } else {
-      axiosCallParams += `, { params: query, ...config }`;
+      axiosCallParams += ", { params: query, ...config }";
     }
   }
 
@@ -131,7 +126,10 @@ class ${className}Client {
     for (const method in methods) {
       if (method !== "parameters") {
         const operation = methods[method];
-        const { responses, requestBody, parameters } = operation;
+        const { responses, requestBody, parameters, deprecated } = operation;
+        if (deprecated) {
+          continue;
+        }
         clientMethods += generateAxiosMethod(endpoint, method, responses, requestBody, parameters);
       }
     }

@@ -1,2 +1,2 @@
--- Create the database
-create database app;
+-- initialize the database
+CREATE DATABASE IF NOT EXISTS `app`;

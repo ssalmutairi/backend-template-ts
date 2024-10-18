@@ -1,44 +1,51 @@
 import fp from "fastify-plugin";
-import { messageResponseSchemaType } from "../shared/common.schema";
 import { FastifyRequest } from "fastify";
+import { messageResponseSchemaType } from "../shared/common.schema";
+import {
+  templateCreateBodySchemaType,
+  templateFilterSchemaType,
+  templateListResponseSchemaType,
+  templateResponseSchemaType,
+  templateUpdateBodySchemaType
+} from "./template.schema";
 
 type templateFindAllType = {
   request?: FastifyRequest;
   skip: number;
   take: number;
-  filter: any; //TODO: define filter type
+  filter: templateFilterSchemaType;
 };
 type templateCreateType = {
   request?: FastifyRequest;
-  data: any; //TODO: define filter type
+  data: templateCreateBodySchemaType;
 };
 
 type templateFindOneType = {
   request?: FastifyRequest;
-  id: string;
+  id: number;
 };
 
 type templateUpdateType = {
   request?: FastifyRequest;
-  data: any; //TODO: define filter type
-  id: string;
+  data: templateUpdateBodySchemaType;
+  id: number;
 };
 
 type templateDeleteType = {
   request?: FastifyRequest;
-  id: string;
+  id: number;
 };
 
 interface TemplateService {
-  findAll(data: templateFindAllType): Promise<any>; //TODO: define response type
-  create: (data: templateCreateType) => Promise<any>; //TODO: define response type
-  findOne: (data: templateFindOneType) => Promise<any | null>; //TODO: define response type
-  update: (data: templateUpdateType) => Promise<any>; //TODO: define response type
+  findAll(data: templateFindAllType): Promise<templateListResponseSchemaType>;
+  create: (data: templateCreateType) => Promise<templateResponseSchemaType>;
+  findOne: (data: templateFindOneType) => Promise<templateResponseSchemaType | null>;
+  update: (data: templateUpdateType) => Promise<templateResponseSchemaType>;
   remove: (data: templateDeleteType) => Promise<messageResponseSchemaType>;
   count: (data: Partial<templateFindAllType>) => Promise<number>;
 }
 
-const servicePlugin = fp(async (fastify) => {
+export default fp(async (fastify) => {
   const {
     prisma,
     // httpErrors
@@ -46,30 +53,23 @@ const servicePlugin = fp(async (fastify) => {
 
   const templateService: TemplateService = {
     findAll: async ({ skip, take, filter, request }) => {
-      return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here
-      });
+      //TODO: implement your logic here
+      return [];
     },
     create: async ({ data }) => {
-      return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here
-      });
+      //TODO: implement your logic here
+      return { id: 1, createdAt: new Date(), updatedAt: new Date() };
     },
     findOne: async ({ id, request }) => {
-      return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here
-      });
+      //TODO: implement your logic here
+      return { id: 1, createdAt: new Date(), updatedAt: new Date() };
     },
     update: async ({ id, data }) => {
-      return await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here
-      });
+      //TODO: implement your logic here
+      return { id: 1, createdAt: new Date(), updatedAt: new Date() };
     },
     remove: async ({ id }) => {
-      await prisma.$transaction(async (prisma) => {
-        //TODO: implement your logic here
-      });
-
+      //TODO: implement your logic here
       return { message: fastify.t("templates.messages.deleted") };
     },
     count: async ({ filter }) => {
@@ -82,8 +82,6 @@ const servicePlugin = fp(async (fastify) => {
 
   fastify.decorate("templateService", templateService);
 });
-
-export default servicePlugin;
 
 declare module "fastify" {
   interface FastifyInstance {

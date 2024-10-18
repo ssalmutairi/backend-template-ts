@@ -1,15 +1,11 @@
-import { sessionSchemaProperties } from "./session.model";
-import { auditableSchema, softDeleteSchema } from "../shared/common.schema";
+import { sessionSchema } from "./session.model";
 import { Static, Type } from "@sinclair/typebox";
 
-export const sessionSchema = Type.Composite([sessionSchemaProperties, auditableSchema, softDeleteSchema]);
-export type sessionSchemaType = Static<typeof sessionSchema>;
-
-export const createSessionSchema = Type.Pick(sessionSchemaProperties, ["userId", "token", "active", "ip"]);
+export const createSessionSchema = Type.Pick(sessionSchema, ["userId", "token", "active", "ip"]);
 export type createSessionSchemaType = Static<typeof createSessionSchema>;
 
-export const updateSessionSchema = Type.Pick(sessionSchemaProperties, ["userId", "token"]);
+export const updateSessionSchema = Type.Pick(sessionSchema, ["userId", "token"]);
 export type updateSessionSchemaType = Static<typeof updateSessionSchema>;
 
-export const validateSessionSchema = Type.Pick(sessionSchemaProperties, ["userId", "token"]);
+export const validateSessionSchema = Type.Pick(sessionSchema, ["userId", "token"]);
 export type validateSessionSchemaType = Static<typeof validateSessionSchema>;

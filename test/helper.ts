@@ -27,7 +27,7 @@ async function build(t: TestContext) {
   const app = await helper.build(argv, await config());
 
   // Tear down our app after we are done
-  t.after(() => void app.close());
+  t.after(async () => await app.close());
 
   return app;
 }

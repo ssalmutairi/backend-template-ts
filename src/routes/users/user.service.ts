@@ -7,9 +7,9 @@ import {
   userResponseSchemaType,
   userUpdateBodySchemaType,
 } from "./user.schema";
-import { messageResponseSchemaType } from "../shared/common.schema";
+import { messageResponseSchemaType } from "../shared/common.schema.js";
 import { FastifyRequest } from "fastify";
-import { comparePassword, hashPassword } from "../../helpers/common";
+import { comparePassword, hashPassword } from "../../helpers/common.js";
 
 type userFindAllType = {
   request?: FastifyRequest;
@@ -24,23 +24,23 @@ type userCreateType = {
 
 type userFindOneType = {
   request?: FastifyRequest;
-  id: string;
+  id: number;
 };
 
 type userUpdateType = {
   request?: FastifyRequest;
   data: userUpdateBodySchemaType;
-  id: string;
+  id: number;
 };
 
 type userDeleteType = {
   request?: FastifyRequest;
-  id: string;
+  id: number;
 };
 
 type resetPasswordType = {
   request?: FastifyRequest;
-  userId: string;
+  userId: number;
   data: resetPasswordBodySchemaType;
 };
 
@@ -54,7 +54,7 @@ interface UserService {
   resetPassword: (data: resetPasswordType) => Promise<messageResponseSchemaType>;
 }
 
-const servicePlugin = fp(async (fastify) => {
+export default fp(async (fastify) => {
   const { prisma, httpErrors } = fastify;
 
   // const _findOneById = async (id: string) => {
@@ -63,7 +63,7 @@ const servicePlugin = fp(async (fastify) => {
   //   });
   // };
 
-  const _findOneByUsername = async (username: string, notIn: string[] = []) => {
+  const _findOneByUsername = async (username: string, notIn: number[] = []) => {
     return await prisma.user.findFirst({
       where: { username, id: { notIn } },
     });
@@ -212,8 +212,6 @@ const servicePlugin = fp(async (fastify) => {
 
   fastify.decorate("userService", userService);
 });
-
-export default servicePlugin;
 
 declare module "fastify" {
   interface FastifyInstance {

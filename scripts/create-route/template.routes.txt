@@ -1,4 +1,5 @@
-import { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
+import fp from "fastify-plugin";
+
 import { setPaginationHeaders } from "../../helpers/common";
 import { errorSchema, messageResponseSchema } from "../shared/common.schema";
 import {
@@ -15,7 +16,7 @@ import {
   templateUpdateSchemaType,
 } from "./template.schema";
 
-const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
+export default fp(async (fastify): Promise<void> => {
   fastify.route<templateGetListSchemaType>({
     method: "GET",
     url: "/",
@@ -23,8 +24,8 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       tags: ["template"],
       deprecated: false,
       hide: false,
-      summary: "create a template",
-      description: "create a template",
+      summary: "list of templates",
+      description: "get a list of templates",
       querystring: templateQuerySchema,
       response: {
         200: templateListResponseSchema,
@@ -51,7 +52,7 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       tags: ["template"],
       deprecated: false,
       hide: false,
-      summary: "create a template",
+      summary: "create template",
       description: "create a template",
       body: templateCreateBodySchema,
       response: {
@@ -76,8 +77,8 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       tags: ["template"],
       deprecated: false,
       hide: false,
-      summary: "get a template",
-      description: "get a template",
+      summary: "get template by id",
+      description: "get template by id",
       params: templateParamSchema,
       response: {
         200: templateResponseSchema,
@@ -101,8 +102,8 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       tags: ["template"],
       deprecated: false,
       hide: false,
-      summary: "update a template",
-      description: "update a template",
+      summary: "update a template by id",
+      description: "update a template by id",
       params: templateParamSchema,
       body: templateUpdateBodySchema,
       response: {
@@ -128,8 +129,8 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       tags: ["template"],
       deprecated: false,
       hide: false,
-      summary: "delete a template",
-      description: "delete a template",
+      summary: "delete a template by id",
+      description: "delete a template by id",
       params: templateParamSchema,
       response: {
         200: messageResponseSchema,
@@ -145,6 +146,4 @@ const templates: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
       return result;
     },
   });
-};
-
-export default templates;
+});

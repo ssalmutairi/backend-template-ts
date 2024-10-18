@@ -1,17 +1,16 @@
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcrypt");
+const argon2 = require("argon2");
 const prisma = new PrismaClient();
 const { v4: uuid } = require("uuid");
 const hashPassword = async (password) => {
-  return await bcrypt.hash(password, 10);
+  return await argon2.hash(password);
 };
 let found = null;
 const userSeed = async () => {
   const plainPassword = "123456";
   const password = await hashPassword(plainPassword);
   const admin = {
-    id: uuid(),
     name: "administrator",
     username: "admin",
     password,

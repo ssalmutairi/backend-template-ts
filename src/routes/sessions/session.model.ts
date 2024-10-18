@@ -1,10 +1,13 @@
 import { Static, Type } from "@sinclair/typebox";
 
-export const sessionSchemaProperties = Type.Object({
-  id: Type.String({ description: "session id" }),
-  userId: Type.String({ description: "user id" }),
+export const sessionSchema = Type.Object({
+  id: Type.Number({ description: "session id" }),
+  userId: Type.Number({ description: "user id" }),
   token: Type.String({ description: "session token" }),
   active: Type.Boolean({ description: "session active" }),
   ip: Type.String({ description: "ip" }),
+  createdAt: Type.Any({ format: "date-time", description: "date created" }),
+  updatedAt: Type.Any({ format: "date-time", description: "date updated" }),
+  deletedAt: Type.Union([Type.Any({ format: "date-time", description: "date deleted" }), Type.Null()]),
 });
-export type sessionSchemaPropertiesType = Static<typeof sessionSchemaProperties>;
+export type sessionSchemaType = Static<typeof sessionSchema>;

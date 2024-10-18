@@ -2,20 +2,7 @@ import { Static, TSchema, Type } from "@sinclair/typebox";
 
 export const Nullable = <T extends TSchema>(schema: T) => Type.Union([schema, Type.Null()]);
 
-export const auditableSchema = Type.Object({
-  updatedAt: Type.Any({ format: "date-time", description: "date updated" }),
-  createdAt: Type.Any({ format: "date-time", description: "date created" }),
-});
-export type auditableSchemaType = Static<typeof auditableSchema>;
-
-export const softDeleteSchema = Type.Object({
-  deletedAt: Type.Union([Type.Any({ format: "date-time", description: "date deleted" }), Type.Null()]),
-});
-export type softDeleteSchemaType = Static<typeof softDeleteSchema>;
-
-export const messageResponseSchema = Type.Object({
-  message: Type.String({ description: "message" }),
-});
+export const messageResponseSchema = Type.Object({ message: Type.String({ description: "message" }) });
 export type messageResponseSchemaType = Static<typeof messageResponseSchema>;
 
 export const errorSchema = Type.Object({

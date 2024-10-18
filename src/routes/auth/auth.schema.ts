@@ -1,12 +1,12 @@
 import { Static, Type } from "@sinclair/typebox";
-import { userSchemaProperties } from "../users/user.model";
+import { userSchema } from "../users/user.model";
 import { errorSchemaType, messageResponseSchemaType } from "../shared/common.schema";
 
-export const loginBodySchema = Type.Pick(userSchemaProperties, ["username", "password"]);
+export const loginBodySchema = Type.Pick(userSchema, ["username", "password"]);
 export type loginBodySchemaType = Static<typeof loginBodySchema>;
 
 export const loginResponseSchema = Type.Composite([
-  Type.Omit(userSchemaProperties, ["password"]),
+  Type.Omit(userSchema, ["password", "createdAt", "updatedAt", "deletedAt"]),
   Type.Object({
     token: Type.String({ description: "token" }),
   }),

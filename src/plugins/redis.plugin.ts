@@ -14,6 +14,7 @@ export default fp<FastifyRedisPluginOptions>(
       fastify.log.warn("Redis is not enabled");
       return;
     }
+
     // wait for redis to be ready
     await fastify.register(fastifyRedis, {
       host: process.env.REDIS_HOST || "127.0.0.1",

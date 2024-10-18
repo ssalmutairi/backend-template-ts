@@ -1,16 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
-import { userSchemaProperties } from "./user.model";
-import {
-  auditableSchema,
-  dateRageSchema,
-  errorSchemaType,
-  messageResponseSchemaType,
-  paginationSchema,
-  softDeleteSchema,
-} from "../shared/common.schema";
-
-export const userSchema = Type.Composite([userSchemaProperties, auditableSchema, softDeleteSchema]);
-export type userSchemaType = Static<typeof userSchema>;
+import { userSchema } from "./user.model";
+import { dateRageSchema, errorSchemaType, messageResponseSchemaType, paginationSchema } from "../shared/common.schema";
 
 export const userParamSchema = Type.Composite([Type.Pick(userSchema, ["id"])]);
 export type userParamSchemaType = Static<typeof userParamSchema>;
