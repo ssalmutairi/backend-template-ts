@@ -28,11 +28,11 @@ if (filePath.includes("http")) {
 } else {
   openApiSchema = JSON.parse(fs.readFileSync(path.resolve(filePath), "utf-8"));
 }
-
+const apiVersion = openApiSchema.info.version || "unknown";
 // Utility function to generate Axios methods based on OpenAPI paths
 function generateAxiosMethod(endpoint, method, responses, requestBody, parameters) {
   // replace endpoint has params end with {param} or :param for path  ByParamName
-  const endpointWithParams = endpoint.replace(/{(.*?)}/g, "By$1").replace(/:(.*?)(\/|$)/g, "By$1");
+  const endpointWithParams = endpoint.replace(/{(.*?)}/g, "By/$1").replace(/:(.*?)(\/|$)/g, "By/$1");
   const functionName =
     changeCase.camelCase(method) +
     changeCase.pascalCase(
@@ -139,6 +139,7 @@ class ${className}Client {
   }
 
   const clientEnd = `
+    version: string = "${apiVersion}";        
 }
 
 export default ${className}Client;
@@ -197,7 +198,9 @@ declare module "fastify" {
 
 export default fp(
   async (fastify) => {
-    fastify.decorate("${clientName}Client", new ${className}(process.env.${envName}));
+    const ${clientName}Client = new ${className}(process.env.${envName});
+    fastify.decorate("${clientName}Client", ${clientName}Client);
+    fastify.log.info(\`${className} client registered - version: \${${clientName}Client.version}\`);
   },
   {
     name: "${clientName}Client",

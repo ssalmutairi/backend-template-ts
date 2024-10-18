@@ -30,13 +30,11 @@ import paginationHook from "./hooks/pagination.hook";
 import sessionService from "./routes/sessions/session.service";
 import authService from "./routes/auth/auth.service";
 import userService from "./routes/users/user.service";
-import sampleService from "./routes/samples/sample.service";
 
 // routes
 import websocketRoutes from "./websocket/websocket.routes";
 import authRoutes from "./routes/auth/auth.routes";
 import userRoutes from "./routes/users/user.routes";
-import sampleRoutes from "./routes/samples/sample.routes";
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {}
 // Pass --options via CLI arguments in command to enable these options.
@@ -85,13 +83,12 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   fastify.register(sessionService);
   fastify.register(userService);
   fastify.register(authService);
-  fastify.register(sampleService);
 
   // load all routes manually
   fastify.register((f) => f.register(websocketRoutes), { prefix: "/websocket" });
   fastify.register((f) => f.register(authRoutes), { prefix: "/api/auth" });
   fastify.register((f) => f.register(userRoutes), { prefix: "/api/users" });
-  fastify.register((f) => f.register(sampleRoutes), { prefix: "/api/samples" });
+
 };
 
 export default app;
