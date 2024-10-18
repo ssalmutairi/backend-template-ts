@@ -93,7 +93,6 @@
     "git": {
       "tagName": "v${version}",
       "commitMessage": "chore(release): v${version}",
-      "requireCleanWorkingDir": true,
       "requireBranch": "main"
     },
     "github": {
