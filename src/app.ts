@@ -79,7 +79,7 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
     encapsulate: false,
   });
 
-  // load all services manually  
+  // load all services manually
   fastify.register(sessionService);
   fastify.register(userService);
   fastify.register(authService);
