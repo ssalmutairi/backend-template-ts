@@ -93,7 +93,7 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
     // Axios Method for ${endpoint} - ${method.toUpperCase()}
     async ${functionName}(${methodParams}config?: AxiosRequestConfig): Promise<${checkResponseHasContent(responses) ? `paths["${endpoint}"]["${method}"]["responses"]["200"]["content"]["application/json"]` : "unknown"}> {
         const response = await this.axiosInstance.${method}(${axiosCallParams}${requestBodyParam}${hasQueryParams ? "" : ", config"});
-        return response.data;
+        return response;
     }
   `;
 }
