@@ -127,7 +127,7 @@ const execute = async () => {
 
   if (!appContent.includes(registerRoutesStatement)) {
     // append register routes statement end of `fastify.register(f => f.register`
-    matchString = "fastify.register(f => f.register";
+    matchString = "fastify.register((f) => f.register";
     const findLine = appContent.lastIndexOf(matchString);
     const findLineEnd = appContent.indexOf(";", findLine) + 1;
     updatedAppContent = appContent.slice(0, findLineEnd);

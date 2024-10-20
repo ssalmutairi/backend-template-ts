@@ -79,13 +79,13 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
     encapsulate: false,
   });
 
-  // load all services manually
+  // load all services manually  
   fastify.register(sessionService);
   fastify.register(userService);
   fastify.register(authService);
 
   // load all routes manually
-  fastify.register((f) => f.register(websocketRoutes), { prefix: "/websocket" });
+  fastify.register((f) => f.register(websocketRoutes));
   fastify.register((f) => f.register(authRoutes), { prefix: "/api/auth" });
   fastify.register((f) => f.register(userRoutes), { prefix: "/api/users" });
 };
