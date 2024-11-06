@@ -30,13 +30,12 @@ import paginationHook from "./hooks/pagination.hook";
 import sessionService from "./routes/sessions/session.service";
 import authService from "./routes/auth/auth.service";
 import userService from "./routes/users/user.service";
-import bookAutherService from "./routes/book-authers/book-auther.service";
+
 
 // routes
 import websocketRoutes from "./websocket/websocket.routes";
 import authRoutes from "./routes/auth/auth.routes";
 import userRoutes from "./routes/users/user.routes";
-import bookAutherRoutes from "./routes/book-authers/book-auther.routes";
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {}
 // Pass --options via CLI arguments in command to enable these options.
@@ -85,13 +84,13 @@ const app: FastifyPluginAsync<AppOptions> = async (fastify, options): Promise<vo
   fastify.register(sessionService);
   fastify.register(userService);
   fastify.register(authService);
-  fastify.register(bookAutherService);
+
 
   // load all routes manually
   fastify.register((f) => f.register(websocketRoutes));
   fastify.register((f) => f.register(authRoutes), { prefix: "/api/auth" });
   fastify.register((f) => f.register(userRoutes), { prefix: "/api/users" });
-  fastify.register((f) => f.register(bookAutherRoutes), { prefix: "/api/book-authers" });
+
 };
 
 export default app;
