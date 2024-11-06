@@ -90,8 +90,8 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
     return response["200"] && response["200"]["content"] && response["200"]["content"]["application/json"];
   };
   return `
-    // Axios Method for ${endpoint} - ${method.toUpperCase()}
-    async ${functionName}(${methodParams}config?: AxiosRequestConfig): Promise<${checkResponseHasContent(responses) ? `paths["${endpoint}"]["${method}"]["responses"]["200"]["content"]["application/json"]` : "unknown"}> {
+    // Axios Method for ${endpoint} - ${method.toUpperCase()} 
+    async ${functionName}(${methodParams}config?: AxiosRequestConfig): Promise<AxiosResponse<${checkResponseHasContent(responses) ? `paths["${endpoint}"]["${method}"]["responses"]["200"]["content"]["application/json"]` : "unknown"}>> {
         const response = await this.axiosInstance.${method}(${axiosCallParams}${requestBodyParam}${hasQueryParams ? "" : ", config"});
         return response;
     }
@@ -101,7 +101,7 @@ function generateAxiosMethod(endpoint, method, responses, requestBody, parameter
 // Generate Axios Client
 function generateAxiosClient() {
   const clientClass = `
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { paths } from "./${fileName}";
 import https from "https";
 
